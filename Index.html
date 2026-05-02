@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>С Днём Рождения, Папа!</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- 🎉 Hero -->
+
+<section class="hero">
+    <h1>🎉 С Днём Рождения, Папа! 🎉</h1>
+    <p>Самому лучшему папе в мире ❤️</p>
+    <button onclick="scrollToSection()">Смотреть дальше ↓</button>
+</section>
+
+<!-- 💌 Поздравление -->
+
+<section class="section">
+    <h2>Поздравление</h2>
+    <p>
+        Дорогой папа! Спасибо тебе за твою поддержку, силу и заботу.  
+        Ты — мой пример и опора. Желаю тебе крепкого здоровья, счастья и долгих лет жизни!
+    </p>
+</section>
+
+<!-- 📸 Галерея -->
+
+<section class="section gallery">
+    <h2>Наши моменты 📸</h2>
+    <div class="images">
+        <img src="https://picsum.photos/300?1">
+        <img src="https://picsum.photos/300?2">
+        <img src="https://picsum.photos/300?3">
+    </div>
+</section>
+
+<!-- ⏳ Таймер -->
+
+<section class="section">
+    <h2>Ты с нами уже:</h2>
+    <p id="timer"></p>
+</section>
+
+<!-- 🎁 Сюрприз -->
+
+<section class="section">
+    <button onclick="showSurprise()">Открыть подарок 🎁</button>
+    <p id="surprise" class="hidden">Ты лучший папа! 💙</p>
+</section>
+
+<!-- 🎆 Canvas -->
+
+<canvas id="confetti"></canvas>
+
+<script>
+function scrollToSection() {
+    window.scrollTo({ top: window.innerHeight, behavior: 'smooth' });
+}
+
+// Таймер (поставь дату рождения)
+const birthDate = new Date("1980-01-01");
+setInterval(() => {
+    const now = new Date();
+    const diff = now - birthDate;
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    document.getElementById("timer").innerText = days + " дней";
+}, 1000);
+
+// Сюрприз
+function showSurprise() {
+    document.getElementById("surprise").classList.remove("hidden");
+    startConfetti();
+}
+
+// Конфетти
+const canvas = document.getElementById("confetti");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let pieces = [];
+
+for (let i = 0; i < 150; i++) {
+    pieces.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        size: Math.random() * 8,
+        speed: Math.random() * 3 + 2
+    });
+}
+
+function startConfetti() {
+    function update() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "red";
+
+        pieces.forEach(p => {
+            ctx.fillRect(p.x, p.y, p.size, p.size);
+            p.y += p.speed;
+
+            if (p.y > canvas.height) p.y = 0;
+        });
+
+        requestAnimationFrame(update);
+    }
+    update();
+}
+</script>
+
+</body>
+</html>
